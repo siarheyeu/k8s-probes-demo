@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: probes-demo-config
+  namespace: probes-demo
+data:
+  APP_MODE: "demo"
+  LOG_LEVEL: "info"
+  
