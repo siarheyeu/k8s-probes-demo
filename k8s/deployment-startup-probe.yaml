@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: probes-demo-slow
+  namespace: probes-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: probes-demo-slow
+  template:
+    metadata:
+      labels:
+        app: probes-demo-slow
+    spec:
+      containers:
+        - name: web
+          image: your-registry/k8s-probes-demo:latest
+          ports:
+            - name: http
+              containerPort: 8080
+          startupProbe:
+            httpGet:
+              path: /startupz
+              port: http
+            initialDelaySeconds: 0
+            periodSeconds: 5
+            failureThreshold: 12   # 12 * 5s = 60s max startup time
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: http
+            periodSeconds: 5
