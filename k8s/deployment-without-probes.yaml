@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: probes-demo-no-probes
+  namespace: probes-demo
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: probes-demo-no-probes
+  template:
+    metadata:
+      labels:
+        app: probes-demo-no-probes
+    spec:
+      containers:
+        - name: web
+          image: your-registry/k8s-probes-demo:latest
+          ports:
+            - name: http
+              containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: probes-demo-config
